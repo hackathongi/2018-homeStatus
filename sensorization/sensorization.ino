@@ -20,7 +20,7 @@ const int ultrasoundSensorTrigger = D4;
 const int soundSensor = D5;
 
 //VARIABLES
-int photoresistorValue;
+float photoresistorValue;
 float temperatureValue;
 int doorValue;
 int distanceValue;
@@ -94,7 +94,7 @@ void readPhotoresistor() {
 void readTemperature() {
   digitalWrite(temperatureSensor, HIGH);
   delay(1000);
-  temperatureValue = analogRead(readSensor) - 273;
+  temperatureValue = (analogRead(readSensor) - 273);
   delay(1000);
   digitalWrite(temperatureSensor, LOW);
 }
