@@ -1,32 +1,47 @@
 //PINS
-const int photoresistorSensor = 0;
-const int temperatureSensor = 1;
-const int humiditySensor = 2;
+const int readSensor = A0;
+const int photoresistorSensor = D0;
+const int temperatureSensor = D1;
+const int doorSensor = D4;
 
 //VARIABLES
 int photoresistorValue;
 int temperatureValue;
-int humidityValue;
+int doorValue;
 
+//SETUP
 void setup() {
   Serial.begin(9600);
-  pinMode(photoresistorSensor, INPUT);
-  pinMode(temperatureSensor, INPUT);
-  pinMode(humiditySensor, INPUT);
+  pinMode(photoresistorSensor, OUTPUT);
+  pinMode(temperatureSensor, OUTPUT);
+  pinMode(doorSensor, INPUT_PULLUP);
 }
 
+//MAIN
 void loop() {
   //Read sensors
-  photoresistorValue = analogRead(photoresistorSensor);
-  temperatureValue = analogRead(temperatureSensor);
-  humidityValue = analogRead(humiditySensor);
+  readPhotoresistor();
+  readTemperature();
 
   //Print data
-  Serial.print("Photoresistor: ");
-  Serial.println(photoresistorValue);
-  Serial.print("Temperature: ");
-  Serial.println(temperatureValue);
-  Serial.print("Humidity: ");
-  Serial.println(humidityValue);
-  delay(100);
+  Serial.printf("Photoresistor: %d\n", photoresistorValue);
+  Serial.printf("Temperature: %d\n", temperatureValue);
+  Serial.printf("Door state: %d\n\n", digitalRead(doorSensor));
+}
+
+//FUNCTIONS
+void readPhotoresistor() {
+  digitalWrite(photoresistorSensor, HIGH);
+  delay(1000);
+  photoresistorValue = analogRead(readSensor);
+  delay(1000);
+  digitalWrite(photoresistorSensor, LOW);
+}
+
+void readTemperature() {
+  digitalWrite(temperatureSensor, HIGH);
+  delay(1000);
+  temperatureValue = analogRead(readSensor) - 273;
+  delay(1000);
+  digitalWrite(temperatureSensor, LOW);
 }
