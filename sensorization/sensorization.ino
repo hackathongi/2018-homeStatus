@@ -113,7 +113,7 @@ void readDistance () {
    digitalWrite(ultrasoundSensorTrigger, LOW);
    duration = pulseIn(ultrasoundSensorEcho, HIGH);
    
-   distanceValue = duration * 10 / 292/ 2;
+   distanceValue = duration * 0.034 / 2;
 }
 
 void readSound() {
